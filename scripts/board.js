@@ -22,7 +22,7 @@ cx.Board.prototype.oneCycle = function() {
   for (var rowIndex = 0; rowIndex < this.rowCount; rowIndex++) {
     for (var columnIndex = 0; columnIndex < this.columnCount; columnIndex++) {
       var currentSquare = this.grid[rowIndex][columnIndex];
-      var adjacentSquares = this.getAdjacent(rowIndex, columnIndex);
+      var adjacentSquares = this.getAdjacentWithSelf(rowIndex, columnIndex);
       this.queueSquareHue(currentSquare, adjacentSquares);
       currentSquare.nextAttribute("hue");
     }
@@ -74,8 +74,14 @@ cx.Board.prototype.drawGrid = function() {
   }
 };
 
-cx.Board.prototype.getAdjacent = function(rowIndex, columnIndex) {
+cx.Board.prototype.getAdjacentWithSelf = function(rowIndex, columnIndex, excludeSelf) {
+  excludeSelf = (excludeSelf === undefined || excludeSelf === false) ? false : excludeSelf;
   adjacentSquares = [];
+
+  if (!excludeSelf) {
+    adjacentSquares.push(this.grid[rowIndex][columnIndex]);
+  }
+
   if (rowIndex > 0 && columnIndex > 0) {
     adjacentSquares.push(this.grid[rowIndex - 1][columnIndex - 1]);
   }

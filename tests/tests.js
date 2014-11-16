@@ -147,16 +147,38 @@ test("cx.Board.prototype.createGrid", function() {
   equal(this.board.grid[0][1].y2, 25);
 });
 
-test("cx.Board.prototype.getAdjacent", function() {
-  var adjacent00 = this.board.getAdjacent(0, 0);
-  var adjacent01 = this.board.getAdjacent(this.board.rowCount - 1, 0);
-  var adjacent10 = this.board.getAdjacent(0, this.board.columnCount - 1);
-  var adjacent11 = this.board.getAdjacent(this.board.rowCount - 1, this.board.columnCount - 1);
-  var adjacent100 = this.board.getAdjacent(1, 1);
-  var adjacent101 = this.board.getAdjacent(this.board.rowCount - 1, 1);
-  var adjacent110 = this.board.getAdjacent(1, this.board.columnCount - 1);
-  var adjacent201 = this.board.getAdjacent(0, 1);
-  var adjacent210 = this.board.getAdjacent(1, 0);
+test("cx.Board.prototype.getAdjacentWithSelf", function() {
+  var adjacent00 = this.board.getAdjacentWithSelf(0, 0);
+  var adjacent01 = this.board.getAdjacentWithSelf(this.board.rowCount - 1, 0);
+  var adjacent10 = this.board.getAdjacentWithSelf(0, this.board.columnCount - 1);
+  var adjacent11 = this.board.getAdjacentWithSelf(this.board.rowCount - 1, this.board.columnCount - 1);
+  var adjacent100 = this.board.getAdjacentWithSelf(1, 1);
+  var adjacent101 = this.board.getAdjacentWithSelf(this.board.rowCount - 1, 1);
+  var adjacent110 = this.board.getAdjacentWithSelf(1, this.board.columnCount - 1);
+  var adjacent201 = this.board.getAdjacentWithSelf(0, 1);
+  var adjacent210 = this.board.getAdjacentWithSelf(1, 0);
+
+  equal(adjacent00.size(), 4);
+  equal(adjacent01.size(), 4);
+  equal(adjacent10.size(), 4);
+  equal(adjacent11.size(), 4);
+  equal(adjacent100.size(), 9);
+  equal(adjacent101.size(), 6);
+  equal(adjacent110.size(), 6);
+  equal(adjacent201.size(), 6);
+  equal(adjacent210.size(), 6);
+});
+
+test("cx.Board.prototype.getAdjacentWithSelf: excludeSelf", function() {
+  var adjacent00 = this.board.getAdjacentWithSelf(0, 0, true);
+  var adjacent01 = this.board.getAdjacentWithSelf(this.board.rowCount - 1, 0, true);
+  var adjacent10 = this.board.getAdjacentWithSelf(0, this.board.columnCount - 1, true);
+  var adjacent11 = this.board.getAdjacentWithSelf(this.board.rowCount - 1, this.board.columnCount - 1, true);
+  var adjacent100 = this.board.getAdjacentWithSelf(1, 1, true);
+  var adjacent101 = this.board.getAdjacentWithSelf(this.board.rowCount - 1, 1, true);
+  var adjacent110 = this.board.getAdjacentWithSelf(1, this.board.columnCount - 1, true);
+  var adjacent201 = this.board.getAdjacentWithSelf(0, 1, true);
+  var adjacent210 = this.board.getAdjacentWithSelf(1, 0, true);
 
   equal(adjacent00.size(), 3);
   equal(adjacent01.size(), 3);
@@ -170,7 +192,7 @@ test("cx.Board.prototype.getAdjacent", function() {
 });
 
 test("cx.Board.prototype.queueSquareHue", function() {
-  var adjacentSquares = this.board.getAdjacent(0, 0);
+  var adjacentSquares = this.board.getAdjacentWithSelf(0, 0);
   this.board.queueSquareHue(this.board.grid[0][0], adjacentSquares);
   var hueQueue = this.board.grid[0][0].hue;
   ok(Math.abs(hueQueue[0] - hueQueue[1]) <= 11);
@@ -239,4 +261,28 @@ test("cx.color.getInfluencedHue", function() {
   equal(cx.color.getInfluencedHue(350, 355), 355);
   equal(cx.color.getInfluencedHue(350, 345), 345);
   equal(cx.color.getInfluencedHue(350, 210), 340);
+});
+
+module("cx.Player", {
+  setup: function() {
+    this.player = new cx.Player();
+  }
+});
+
+test("cx.Player", function() {
+  equal(this.player.rowIndex, 0);
+  equal(this.player.columnIndex, 0);
+  equal(this.player.hue, 0);
+});
+
+test("cx.Player", function() {
+  opts = {
+    rowIndex:    1,
+    columnIndex: 2,
+    hue:         3
+  };
+  var player = new cx.Player(opts);
+  equal(player.rowIndex, 1);
+  equal(player.columnIndex, 2);
+  equal(player.hue, 3);
 });
