@@ -27,7 +27,7 @@ cx.color.getInfluencedHue = function(originalHue, influnceHue) {
   var sortedByDistanceHues = this.sortedHuesByDistance(sortedHues);
   var adjustedHues = this.adjustedHues(sortedByDistanceHues);
 
-  if (adjustedHues[0] % 360 == originalHue) {
+  if (adjustedHues[0] % this.CIRCLE_DEGREES == originalHue) {
     influencedOriginalAdjustedHue = adjustedHues[0] + this.INFLUENCE_VELOCITY;
     if (influencedOriginalAdjustedHue > adjustedHues[1]) {
       influencedOriginalAdjustedHue = adjustedHues[1];
@@ -38,7 +38,7 @@ cx.color.getInfluencedHue = function(originalHue, influnceHue) {
       influencedOriginalAdjustedHue = adjustedHues[0];
     }
   }
-  return parseInt(influencedOriginalAdjustedHue % 360);
+  return parseInt(influencedOriginalAdjustedHue % this.CIRCLE_DEGREES);
 }
 
 cx.color.sortedHuesByValue = function(hues) {
@@ -86,5 +86,5 @@ cx.color.adjustedHuesAverage = function(adjustedHues) {
     return prev + current;
   }) / adjustedHues.length;
 
-  return parseInt(averageAdjustedHue % 360);
+  return parseInt(averageAdjustedHue % this.CIRCLE_DEGREES);
 };
