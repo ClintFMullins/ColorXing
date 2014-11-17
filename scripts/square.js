@@ -38,7 +38,7 @@ cx.Square.prototype.queueAttribute = function(attribute, value) {
   return this[attribute];
 };
 
-cx.Square.prototype.nextAttribute = function(attribute) {
+cx.Square.prototype.setToNextAttribute = function(attribute) {
   return this[attribute].shift();
 };
 

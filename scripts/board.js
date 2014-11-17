@@ -24,11 +24,11 @@ cx.Board.prototype.oneCycle = function() {
       var currentSquare = this.grid[rowIndex][columnIndex];
       var adjacentSquares = this.getAdjacentWithSelf(rowIndex, columnIndex);
       this.queueSquareHue(currentSquare, adjacentSquares);
-      currentSquare.nextAttribute("hue");
+      currentSquare.setToNextAttribute("hue");
     }
   }
   this.drawGrid();
-}
+};
 
 cx.Board.prototype.queueSquareHue = function(square, adjacentSquares) {
   var averageColor = cx.color.getCircleAverage(adjacentSquares.listAttribute("hue"));

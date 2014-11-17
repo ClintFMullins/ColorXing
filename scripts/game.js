@@ -4,14 +4,12 @@ cx.Game = function() {
   this.board = new cx.Board();
 };
 
-cx.Game.prototype.initialize = function() {
-  this.board.drawGrid();
+cx.Game.prototype.loop = function() {
+  this.board.oneCycle();
+  setTimeout(this.loop.bind(this), 100);
 };
 
 $(function() {
   var game = new cx.Game();
-  game.initialize();
-  setInterval(function() {
-    game.board.oneCycle();
-  },0)
+  game.loop();
 });
