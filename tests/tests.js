@@ -67,11 +67,11 @@ test("cx.Square.prototype.queueAttribute", function() {
   deepEqual(this.square.hue, [0, 100, 200]);
 });
 
-test("cx.Square.prototype.nextAttribute", function() {
+test("cx.Square.prototype.setToNextAttribute", function() {
   this.square.hue = [0, 100, 200];
-  equal(this.square.nextAttribute("hue"), 0);
+  equal(this.square.setToNextAttribute("hue"), 0);
   deepEqual(this.square.hue, [100, 200]);
-  equal(this.square.nextAttribute("hue"), 100);
+  equal(this.square.setToNextAttribute("hue"), 100);
   deepEqual(this.square.hue, [200]);
 });
 
